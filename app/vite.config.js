@@ -3,6 +3,6 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
     plugins: [react()],
-    base: '/portfolio-bilel/',        // nom EXACT du repo
+    base: '/portfolio/',        // nom EXACT du repo
     build: { outDir: '../docs', emptyOutDir: true }
 })
