@@ -20,7 +20,7 @@ const tokens = {
 
 // --- Profil ---
 const profile = {
-  name: "Bilal Djenidi",
+  name: "coucou paul",
   title: "Étudiant BTS SIO – SLAM | Technicien support (alternance 2024–2026) & futur DevOps",
   location: "Rennes, France",
   email: "djenidi.bilal.29@gmail.com",
