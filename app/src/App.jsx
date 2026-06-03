@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Mail, Phone, MapPin, ExternalLink, GraduationCap, Wrench, ServerCog, Terminal, Shield, Cpu, Code2, Database, Globe2, Network, ChevronRight, FileDown } from "lucide-react";
+import { Github, Mail, Phone, MapPin, ExternalLink, GraduationCap, Wrench, ServerCog, Terminal, Shield, Cpu, Code2, Database, Globe2, Network, ChevronRight, FileDown, BookOpen, Ticket } from "lucide-react";
 
 // CV : dépose ton fichier dans app/public/cv.pdf (ou crée un lien symbolique)
 const cvPdfUrl = `${import.meta.env.BASE_URL}cv.pdf`;
@@ -36,6 +36,30 @@ const profile = {
   pitch:
     "Étudiant passionné de lecture, jeux-vidéos et sport, orienté DevOps (Linux, Git, conteneurisation, automatisation). Je recherche une alternance à Rennes pour contribuer à des projets de CI/CD, d’infrastructure virtualisée et de développement logiciel.",
 };
+
+// --- Réalisations E6 (BTS SIO) ---
+const e6Realisations = [
+  {
+    id: "mycellius",
+    title: "Mycellius",
+    badge: "Wiki d’entreprise",
+    icon: BookOpen,
+    summary:
+      "Wiki interne (web et mobile) pour centraliser et partager les documents techniques au sein d’une organisation.",
+    stack: ["Java / Spring Boot", "React", "TypeScript", "Mobile", "CI/CD"],
+    href: "https://github.com/Daweshh/mycellius-bilel",
+  },
+  {
+    id: "intrasupport",
+    title: "InfraSupport",
+    badge: "Ticketing IT",
+    icon: Ticket,
+    summary:
+      "Application intranet de gestion des demandes support : tickets, assignation, historique et tableau de bord pour les équipes IT.",
+    stack: ["Java 21 / Spring Boot", "React", "JWT", "MariaDB", "GitHub Actions"],
+    href: "https://github.com/Daweshh/InfraSupport",
+  },
+];
 
 // --- Compétences ---
 const skills = {
@@ -390,7 +414,7 @@ function ProgressBreadcrumb({ steps, current }) {
   );
 }
 
-const SECTION_IDS = ["accueil", "skills", "projects", "cv", "contact"];
+const SECTION_IDS = ["e6", "accueil", "skills", "projects", "cv", "contact"];
 
 export default function App() {
   const [active, setActive] = useState(null);
@@ -398,7 +422,7 @@ export default function App() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const activeProject = useMemo(() => projects.find((p) => p.id === active) || null, [active]);
 
-  const steps = ["Accueil", "Compétences", "Projets", "CV", "Contact"];
+  const steps = ["Réalisations E6", "Accueil", "Compétences", "Projets", "CV", "Contact"];
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 900);
@@ -460,6 +484,13 @@ export default function App() {
           </a>
           <nav className="flex flex-wrap gap-1 sm:gap-3 text-sm justify-end">
             <a
+              href="#e6"
+              className="px-3 py-2.5 rounded-lg transition-all duration-200 hover:bg-white/10 hover:text-white min-h-[44px] min-w-[44px] flex items-center justify-center"
+              style={{ color: tokens.muted }}
+            >
+              E6
+            </a>
+            <a
               href="#skills"
               className="px-3 py-2.5 rounded-lg transition-all duration-200 hover:bg-white/10 hover:text-white min-h-[44px] min-w-[44px] flex items-center justify-center"
               style={{ color: tokens.muted }}
@@ -495,8 +526,60 @@ export default function App() {
       </header>
 
       <main className={contentWidthClass}>
+      {/* Réalisations E6 */}
+      <section id="e6" className="pt-10 pb-10 scroll-mt-24">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={loaded ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight" style={{ color: tokens.text }}>
+            RÉALISATIONS E6
+          </h2>
+          <p className="mt-2 text-gray-400 max-w-2xl">
+            Projets principaux du BTS SIO SLAM — prototypes métier déployables en contexte d’entreprise.
+          </p>
+          <div className="mt-8 grid md:grid-cols-2 gap-6">
+            {e6Realisations.map((project) => (
+              <Card key={project.id} className="flex flex-col h-full border border-violet-500/20">
+                <div className="flex items-start gap-3">
+                  <div
+                    className="p-2.5 rounded-xl shrink-0"
+                    style={{ background: `${tokens.brand.primary}30`, color: tokens.brand.secondary }}
+                  >
+                    <project.icon size={22} />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-xs font-medium" style={{ color: tokens.brand.accent }}>
+                      {project.badge}
+                    </span>
+                    <h3 className="text-xl font-semibold mt-0.5">{project.title}</h3>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-400 mt-4 flex-1">{project.summary}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {project.stack.map((s) => (
+                    <Chip key={s}>{s}</Chip>
+                  ))}
+                </div>
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-5 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-violet-600 hover:bg-violet-500 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] min-h-[44px] w-fit"
+                >
+                  <Github size={16} />
+                  Voir le dépôt GitHub
+                  <ExternalLink size={14} className="opacity-80" />
+                </a>
+              </Card>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
       {/* Hero */}
-      <section id="accueil" className="pt-12 pb-8 scroll-mt-24">
+      <section id="accueil" className="pt-4 pb-8 scroll-mt-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={loaded ? { opacity: 1, y: 0 } : {}}
